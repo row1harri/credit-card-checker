@@ -28,32 +28,44 @@ const batch = [valid1, valid2, valid3, valid4, valid5, invalid1, invalid2, inval
 Function to validate a given credit card number
 This function ses the Luhn algorithm for the validation process
 */
+
 const validateCred = (arr) => {
+    let checkArr = arr.map((x) => x);//Create a copy of the array to avoid modifying the original array(slice creates a shallow copy)
     let sum = 0;
     let toDouble = false; //This bool value is used to determine if the current digit should be doubled or not
-    for(let x=arr.length-1; x>= 0; x--){
+    for(let x=checkArr.length-1; x>= 0; x--){
         
         if(toDouble){
-            arr[x] *= 2;
-            if(arr[x] > 9){
-                arr[x] -= 9;
+            checkArr[x] *= 2;
+            if(checkArr[x] > 9){
+                checkArr[x] -= 9;
             }
         }
-        sum += arr[x];
+        sum += checkArr[x];
         //Toggle the toDouble value since in the luhn algorithm, every other digit is doubled
         toDouble = !toDouble;
     }
     //The credit card number is only valid if the sum determined is a multiple of 10
     if ((sum % 10) === 0) {
+        
         return true;
+     
     }
+    
     return false;
+    
     
 }
 
+const findInvalidCards = (cards) =>{
+    let invalidCards = cards.filter((card) => !validateCred(card));
+    return invalidCards;
+}
+    
 
 
-console.log(validateCred(invalid3));
+//console.log(validateCred(invalid1));
+console.log(findInvalidCards(batch));
 
 
 
