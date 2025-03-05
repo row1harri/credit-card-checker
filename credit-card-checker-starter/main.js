@@ -56,17 +56,48 @@ const validateCred = (arr) => {
     
     
 }
-
+// function to find and return invalid credit card numbers
 const findInvalidCards = (cards) =>{
-    let invalidCards = cards.filter((card) => !validateCred(card));
+    let invalidCards = cards.filter((card) => !validateCred(card));//filters out the invalid cards into a new array
     return invalidCards;
 }
     
+//Function to identify the companies that issued the invalid credit cards
+const idInvalidCardCompanies = (invalidCards) =>{
+    let company;
+    let companies = [];
+    invalidCards.forEach(card => {
+        switch(card[0]){//the first digit of the credit card number identifies the company that issued the card
+            case 3:
+                company = 'Amex (American Express)';
+                break;
+            case 4:
+                company = 'Visa';
+                break;
+            case 5:
+                company = 'Mastercard';
+                break;
+            case 6:
+                company = 'Discover';
+                break;
+            default:
+                company = 'Company not found';
+                console.log("company: " + company);
+        }
+    
+        if(!companies.includes(company) && company !== 'Company not found'){
+            companies.push(company);
+        }
+    });
 
+    return companies;
+
+}
 
 //console.log(validateCred(invalid1));
-console.log(findInvalidCards(batch));
+//console.log(findInvalidCards(batch));
 
+//console.log(idInvalidCardCompanies(findInvalidCards(batch)));
 
 
 
